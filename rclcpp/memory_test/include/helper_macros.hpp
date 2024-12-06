@@ -67,6 +67,24 @@
   executor->add_node(node_##NUM); \
   print_rss("node_srv", NUM);
 
+#define NODE_P_FILTERED(NUM) \
+  auto node_p_##NUM = rclcpp::Node::make_shared("node_p_filtered_"#NUM, node_options); \
+  auto publisher_##NUM = node_p_##NUM->create_publisher<std_msgs::msg::String>("topic_"#NUM, 10); \
+  executor->add_node(node_p_##NUM); \
+  print_rss("node_p_filtered_", NUM);
+
+#define NODE_S_FILTERED(NUM) \
+  auto node_s_##NUM = rclcpp::Node::make_shared("node_s_filtered_"#NUM, node_options); \
+  rclcpp::SubscriptionOptions sub_options_##NUM; \
+  sub_options_##NUM.content_filter_options.filter_expression = "data = 'Hello, world!'"; \
+  sub_options_##NUM.content_filter_options.expression_parameters = {}; \
+  auto subscription_##NUM = node_s_##NUM->create_subscription<std_msgs::msg::String>( \
+    "filtered_topic", 10, \
+    [](const std_msgs::msg::String & msg) {(void)msg;}, \
+    sub_options_##NUM); \
+  executor->add_node(node_s_##NUM); \
+  print_rss("node_s_filtered", NUM);
+
 // Single nodes with many entities
 #define PUB(NUM,TYPE) \
   auto publisher_##NUM = node_1->create_publisher<memory_msgs::msg::TYPE>("topic_"#NUM, 1); \
