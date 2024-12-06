@@ -20,6 +20,10 @@ find_package(memory_msgs REQUIRED)
 # target_include_directories(memory-test PRIVATE include)
 # ament_target_dependencies(memory-test rclcpp memory_msgs std_srvs)
 
+add_executable(content-filter-test src/content-filter-test.cpp)
+target_include_directories(content-filter-test PRIVATE include)
+ament_target_dependencies(content-filter-test rclcpp std_msgs)
+
 add_executable(default_nodes src/default_nodes.cpp)
 target_include_directories(default_nodes PRIVATE include)
 ament_target_dependencies(default_nodes rclcpp)
@@ -77,6 +81,7 @@ target_include_directories(pub_sub_big_message_size PRIVATE include)
 ament_target_dependencies(pub_sub_big_message_size rclcpp memory_msgs)
 
 install(TARGETS
+  content-filter-test
   default_nodes
   nodes_params_off
   default_subs_params_off
