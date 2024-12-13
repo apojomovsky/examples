@@ -50,3 +50,5 @@ double get_cpu_time()
     }
     return ts.tv_sec + ts.tv_nsec * 1e-9;
 }
+
+void NewFunction(size_t num_subscribers);
